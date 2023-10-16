@@ -11,8 +11,12 @@ def excel_to_tables(file_path):
     return tables
 
 
-# ----------- Variables -----------
-file_path = 'example.xlsx'  # Replace with your Excel file path
+# ----------- Ask for file name -----------
+file_path = input('Enter file path: ')  
 tables = excel_to_tables(file_path)
+
+# ----------- Print all sheet names -----------
+for sheet_name in tables.keys():
+    print(sheet_name)
 
 tables['Sheet_Title']
