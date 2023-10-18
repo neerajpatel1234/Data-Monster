@@ -54,10 +54,12 @@ def save_csv():
             save_to_csv(current_sheet, csv_file_name)
 
 # ----------- GUI -----------
-root = tk.Tk()
-root.title("Excel to CSV Converter")
+window = tk.Tk()
+window.title("Data Monster")
+window.geometry("500x500")
+window.resizable(False, False)
 
-frame = tk.Frame(root)
+frame = tk.Frame(window)
 frame.pack(pady=10)
 
 label_path = tk.Label(frame, text="File Path:")
@@ -66,17 +68,20 @@ label_path.grid(row=0, column=0)
 entry_path = tk.Entry(frame, width=50)
 entry_path.grid(row=0, column=1, padx=10)
 
-button_browse = tk.Button(frame, text="Browse", command=browse_file)
+button_browse = tk.Button(frame, text="Browse Files", command=browse_file)
 button_browse.grid(row=0, column=2)
 
-button_convert = tk.Button(frame, text="Convert", command=convert_to_csv)
-button_convert.grid(row=1, columnspan=3, pady=10)
+button_convert_csv = tk.Button(frame, text="Convert to CSV", command=convert_to_csv)
+button_convert_csv.grid(row=1, columnspan=3, pady=10)
 
-listbox_sheets = tk.Listbox(root, selectmode=tk.SINGLE, width=50)
+button_convert_excel = tk.Button(frame, text="Convert to Excel")
+button_convert_excel.grid(row=2, columnspan=3, pady=10)
+
+listbox_sheets = tk.Listbox(window, selectmode=tk.SINGLE, width=50)
 listbox_sheets.pack(pady=10)
 
-button_save = tk.Button(root, text="Save as CSV", command=save_csv)
+button_save = tk.Button(window, text="Save as CSV", command=save_csv)
 button_save.pack()
 
-root.mainloop()
+window.mainloop()
 
