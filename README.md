@@ -11,7 +11,8 @@ This project is a Python program that is able to take in a excel file (.xlsx) th
 
 ## Screenshots of the Application 
 
-- <img width="400" alt="image" src="<img width="632" alt="image" src="https://github.com/neerajpatel1234/Data-Monster/assets/114114241/5070a1b3-9f64-419f-9dc6-c5f5028257fd">">
+- <img width="400" alt="image" src="https://github.com/neerajpatel1234/Data-Monster/assets/114114241/77b69839-19e7-465d-8c40-9c6178e8456c">
+
 
 ## Language and Tools Used 
 
