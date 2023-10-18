@@ -56,11 +56,25 @@ def save_csv():
 # ----------- GUI -----------
 window = tk.Tk()
 window.title("Data Monster")
-window.geometry("500x500")
 window.resizable(False, False)
 
 frame = tk.Frame(window)
 frame.pack(pady=10)
+
+menu = tk.Menu(window)
+window.config(menu=menu)
+menu_file = tk.Menu(menu)
+
+filemenu = tk.Menu(menu) 
+menu.add_cascade(label='File', menu=filemenu) 
+filemenu.add_command(label='New') 
+filemenu.add_command(label='Open...') 
+filemenu.add_separator() 
+filemenu.add_command(label='Exit', command=window.quit) 
+helpmenu = tk.Menu(menu) 
+menu.add_cascade(label='Help', menu=helpmenu) 
+helpmenu.add_command(label='About') 
+
 
 label_path = tk.Label(frame, text="File Path:")
 label_path.grid(row=0, column=0)
