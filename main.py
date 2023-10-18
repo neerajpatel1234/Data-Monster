@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import pandas as pd
+import openpyxl as xl
 
 # ----------- Function Definitions -----------
 def excel_to_tables(file_path):
@@ -44,6 +45,7 @@ def convert_to_csv():
             listbox_sheets.insert(tk.END, sheet_name)
 
 def save_csv():
+    global tables
     selected_sheet = listbox_sheets.get(tk.ACTIVE)
     if selected_sheet:
         current_sheet = tables[selected_sheet]

@@ -16,7 +16,9 @@ This project is a Python program that is able to take in a excel file (.xlsx) th
 ## Language and Tools Used 
 
 - Python (3.12.0)
-- Visual Studio Code (1.60.2)
-- Pandas (1.3.3)
-- Git Bash (2.33.0)
+- Visual Studio Code 
+- Pandas 
+- Tinker 
+- Openpyxl
+- Git Bash 
 - GitHub
