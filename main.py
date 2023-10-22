@@ -3,7 +3,7 @@ from tkinter import filedialog
 import pandas as pd
 import openpyxl as xl
 
-# ----------- Function Definitions -----------
+# ----------- Function: Excel to pandas -----------
 def excel_to_tables(file_path):
     try:
         xls = pd.ExcelFile(file_path)
@@ -23,6 +23,7 @@ def excel_to_tables(file_path):
     
     return tables
 
+# ----------- Function: Save to CSV -----------
 def save_to_csv(dataframe, file_name):
     try:
         dataframe.to_csv(file_name, index=False)
@@ -30,6 +31,7 @@ def save_to_csv(dataframe, file_name):
     except Exception as e:
         print(f'ERROR: {e}')
 
+# ----------- Function: Open file browser -----------
 def browse_file():
     global file_path
     file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
@@ -37,6 +39,7 @@ def browse_file():
         entry_path.delete(0, tk.END)
         entry_path.insert(0, file_path)
 
+# ----------- Function: Convert to CSV -----------
 def convert_to_csv():
     file_path = entry_path.get()
     tables = excel_to_tables(file_path)
@@ -44,6 +47,7 @@ def convert_to_csv():
         for sheet_name in tables.keys():
             listbox_sheets.insert(tk.END, sheet_name)
 
+# ----------- Function: Save as CSV -----------
 def save_csv():
     global tables
     selected_sheet = listbox_sheets.get(tk.ACTIVE)
@@ -52,6 +56,25 @@ def save_csv():
         csv_file_name = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
         if csv_file_name:
             save_to_csv(current_sheet, csv_file_name)
+ 
+ 
+# ----------- Function: Save as Excel -----------           
+def save_excel():
+    pass
+
+# ----------- Function: Clean the Data -----------
+def clean_data():
+    pass
+
+# ----------- Function: Draw the Data -----------
+def visualise_data():
+    pass
+
+# ----------- Function: Analyse the Data -----------
+def analyse_data():
+    pass
+
+
 
 # ----------- GUI -----------
 window = tk.Tk()
