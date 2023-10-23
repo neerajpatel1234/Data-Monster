@@ -12,7 +12,7 @@ def excel_to_tables(file_path):
         return None
 
     tables = {}
-    
+
     if not xls.sheet_names:
         print('ERROR: No sheets found in file.')
         return None
