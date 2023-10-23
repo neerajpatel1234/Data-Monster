@@ -1,12 +1,12 @@
 import tkinter as tk
 from tkinter import filedialog
 import pandas as pd
-import openpyxl as xl
+
 
 # ----------- Function: Excel to pandas -----------
-def excel_to_tables(file_path):
+def excel_to_tables(in_file_path):
     try:
-        xls = pd.ExcelFile(file_path)
+        xls = pd.ExcelFile(in_file_path)
     except Exception as e:
         print(f'ERROR: {e}')
         return None
@@ -16,12 +16,13 @@ def excel_to_tables(file_path):
     if not xls.sheet_names:
         print('ERROR: No sheets found in file.')
         return None
-    
+
     for sheet_name in xls.sheet_names:
         df = pd.read_excel(xls, sheet_name)
         tables[sheet_name] = df
-    
+
     return tables
+
 
 # ----------- Function: Save to CSV -----------
 def save_to_csv(dataframe, file_name):
@@ -31,6 +32,7 @@ def save_to_csv(dataframe, file_name):
     except Exception as e:
         print(f'ERROR: {e}')
 
+
 # ----------- Function: Open file browser -----------
 def browse_file():
     global file_path
@@ -39,6 +41,7 @@ def browse_file():
         entry_path.delete(0, tk.END)
         entry_path.insert(0, file_path)
 
+
 # ----------- Function: Convert to CSV -----------
 def convert_to_csv():
     file_path = entry_path.get()
@@ -46,6 +49,7 @@ def convert_to_csv():
     if tables:
         for sheet_name in tables.keys():
             listbox_sheets.insert(tk.END, sheet_name)
+
 
 # ----------- Function: Save as CSV -----------
 def save_csv():
@@ -56,24 +60,26 @@ def save_csv():
         csv_file_name = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
         if csv_file_name:
             save_to_csv(current_sheet, csv_file_name)
- 
- 
-# ----------- Function: Save as Excel -----------           
+
+
+# ----------- Function: Save as Excel -----------
 def save_excel():
     pass
+
 
 # ----------- Function: Clean the Data -----------
 def clean_data():
     pass
 
+
 # ----------- Function: Draw the Data -----------
 def visualise_data():
     pass
 
+
 # ----------- Function: Analyse the Data -----------
 def analyse_data():
     pass
-
 
 
 # ----------- GUI -----------
@@ -88,16 +94,15 @@ menu = tk.Menu(window)
 window.config(menu=menu)
 menu_file = tk.Menu(menu)
 
-filemenu = tk.Menu(menu) 
-menu.add_cascade(label='File', menu=filemenu) 
-filemenu.add_command(label='New') 
-filemenu.add_command(label='Open...') 
-filemenu.add_separator() 
-filemenu.add_command(label='Exit', command=window.quit) 
-helpmenu = tk.Menu(menu) 
-menu.add_cascade(label='Help', menu=helpmenu) 
-helpmenu.add_command(label='About') 
-
+filemenu = tk.Menu(menu)
+menu.add_cascade(label='File', menu=filemenu)
+filemenu.add_command(label='New')
+filemenu.add_command(label='Open...')
+filemenu.add_separator()
+filemenu.add_command(label='Exit', command=window.quit)
+helpmenu = tk.Menu(menu)
+menu.add_cascade(label='Help', menu=helpmenu)
+helpmenu.add_command(label='About')
 
 label_path = tk.Label(frame, text="File Path:")
 label_path.grid(row=0, column=0)
@@ -121,4 +126,3 @@ button_save = tk.Button(window, text="Save as CSV", command=save_csv)
 button_save.pack()
 
 window.mainloop()
-
