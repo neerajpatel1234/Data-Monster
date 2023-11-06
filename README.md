@@ -2,12 +2,12 @@
 
 ## Description 
 
-This project is a Python program that is able to take in a excel file (.xlsx) then do either of the following:
+This project is a Python program that is able to take in an Excel file (.xlsx) and then do either of the following:
 - Clean the data
 - Analyze the data
 - Visualize the data
-- Export the data to a new excel file (.xlsx)
-- Export the data to a new csv file (.csv)
+- Export the data to a new Excel file (.xlsx)
+- Export the data to a new CSV file (.csv)
 
 ## Screenshots of the Application 
 
