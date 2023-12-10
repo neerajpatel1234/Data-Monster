@@ -11,7 +11,7 @@ def excel_to_tables(in_file_path):
         print(f'ERROR: {e}')
         return None
 
-    tables = {}
+    current_tables = {}
 
     if not xls.sheet_names:
         print('ERROR: No sheets found in file.')
@@ -19,9 +19,9 @@ def excel_to_tables(in_file_path):
 
     for sheet_name in xls.sheet_names:
         df = pd.read_excel(xls, sheet_name)
-        tables[sheet_name] = df
+        current_tables[sheet_name] = df
 
-    return tables
+    return current_tables
 
 
 # ----------- Function: Save to CSV -----------
@@ -44,10 +44,10 @@ def browse_file():
 
 # ----------- Function: Convert to CSV -----------
 def convert_to_csv():
-    file_path = entry_path.get()
-    tables = excel_to_tables(file_path)
-    if tables:
-        for sheet_name in tables.keys():
+    cvs_file_path = entry_path.get()
+    loaded_tables = excel_to_tables(cvs_file_path)
+    if loaded_tables:
+        for sheet_name in loaded_tables.keys():
             listbox_sheets.insert(tk.END, sheet_name)
 
 
@@ -94,15 +94,15 @@ menu = tk.Menu(window)
 window.config(menu=menu)
 menu_file = tk.Menu(menu)
 
-filemenu = tk.Menu(menu)
-menu.add_cascade(label='File', menu=filemenu)
-filemenu.add_command(label='New')
-filemenu.add_command(label='Open...')
-filemenu.add_separator()
-filemenu.add_command(label='Exit', command=window.quit)
-helpmenu = tk.Menu(menu)
-menu.add_cascade(label='Help', menu=helpmenu)
-helpmenu.add_command(label='About')
+fileMenu = tk.Menu(menu)
+menu.add_cascade(label='File', menu=fileMenu)
+fileMenu.add_command(label='New')
+fileMenu.add_command(label='Open...')
+fileMenu.add_separator()
+fileMenu.add_command(label='Exit', command=window.quit)
+helpMenu = tk.Menu(menu)
+menu.add_cascade(label='Help', menu=helpMenu)
+helpMenu.add_command(label='About')
 
 label_path = tk.Label(frame, text="File Path:")
 label_path.grid(row=0, column=0)
