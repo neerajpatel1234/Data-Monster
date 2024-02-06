@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3349d163-6302-40da-85db-6f4869d30230" name="Changes" comment="- Code clean up.&#10;- File rename.&#10;- Comments added.&#10;- Added project into IntelliJ">
+    <list default="true" id="3349d163-6302-40da-85db-6f4869d30230" name="Changes" comment="- Code clean up.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-Monster.py" beforeDir="false" afterPath="$PROJECT_DIR$/data-Monster.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +82,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698053264895</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="- Code clean up.">
+      <option name="closed" value="true" />
+      <created>1702182747396</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702182747396</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -100,6 +107,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="other" />
     <MESSAGE value="- Code clean up.&#10;- File rename.&#10;- Comments added.&#10;- Added project into IntelliJ" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Code clean up.&#10;- File rename.&#10;- Comments added.&#10;- Added project into IntelliJ" />
+    <MESSAGE value="- Code clean up." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Code clean up." />
   </component>
 </project>
