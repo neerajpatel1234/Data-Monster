@@ -20,7 +20,6 @@ def excel_to_tables(in_file_path):
     for sheet_name in xls.sheet_names:
         df = pd.read_excel(xls, sheet_name)
         current_tables[sheet_name] = df
-
     return current_tables
 
 
