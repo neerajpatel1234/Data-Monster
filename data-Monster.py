@@ -1,127 +1,45 @@
-import tkinter as tk
-from tkinter import filedialog
+import matplotlib.pyplot as plt
 import pandas as pd
+import pdfplumber
 
+def extract_transactions_from_pdf(pdf_path):
+    transactions = []
+    
+    with pdfplumber.open(pdf_path) as pdf:
+        for page in pdf.pages:
+            text = page.extract_text()
+            if text:
+                lines = text.split("\n")
+                for line in lines:
+                    parts = line.split()
+                    if len(parts) > 4 and parts[1] in ["BP", "DC"]:  # Filter transactions
+                        try:
+                            money_out = float(parts[-2]) if parts[-2].replace('.', '', 1).isdigit() else 0
+                            money_in = float(parts[-3]) if parts[-3].replace('.', '', 1).isdigit() else 0
+                            category = parts[2] if len(parts) > 2 else "Unknown"
+                            transactions.append((category, money_out if money_out > 0 else money_in))
+                        except ValueError:
+                            continue
+    
+    return pd.DataFrame(transactions, columns=['Category', 'Amount'])
 
-# ----------- Function: Excel to pandas -----------
-def excel_to_tables(in_file_path):
-    try:
-        xls = pd.ExcelFile(in_file_path)
-    except Exception as e:
-        print(f'ERROR: {e}')
-        return None
+def plot_budget(df):
+    plt.figure(figsize=(8, 6))
+    plt.pie(df['Amount'], labels=df['Category'], autopct='%1.1f%%', startangle=140, colors=plt.cm.Paired.colors)
+    plt.title("Spending Allocation")
+    plt.axis('equal')  # Ensures pie chart is a circle
+    plt.show()
 
-    current_tables = {}
+def main():
+    pdf_path = "1_WP03-0774-0077757-000_20241124_058.pdf"  # Update with actual file path
+    budget_df = extract_transactions_from_pdf(pdf_path)
+    
+    if not budget_df.empty:
+        print("\nBudget Overview:")
+        print(budget_df)
+        plot_budget(budget_df)
+    else:
+        print("No budget data found.")
 
-    if not xls.sheet_names:
-        print('ERROR: No sheets found in file.')
-        return None
-
-    for sheet_name in xls.sheet_names:
-        df = pd.read_excel(xls, sheet_name)
-        current_tables[sheet_name] = df
-    return current_tables
-
-
-# ----------- Function: Save to CSV -----------
-def save_to_csv(dataframe, file_name):
-    try:
-        dataframe.to_csv(file_name, index=False)
-        print(f'Successfully saved to {file_name}')
-    except Exception as e:
-        print(f'ERROR: {e}')
-
-
-# ----------- Function: Open file browser -----------
-def browse_file():
-    global file_path
-    file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
-    if file_path:
-        entry_path.delete(0, tk.END)
-        entry_path.insert(0, file_path)
-
-
-# ----------- Function: Convert to CSV -----------
-def convert_to_csv():
-    cvs_file_path = entry_path.get()
-    loaded_tables = excel_to_tables(cvs_file_path)
-    if loaded_tables:
-        for sheet_name in loaded_tables.keys():
-            listbox_sheets.insert(tk.END, sheet_name)
-
-
-# ----------- Function: Save as CSV -----------
-def save_csv():
-    global tables
-    selected_sheet = listbox_sheets.get(tk.ACTIVE)
-    if selected_sheet:
-        current_sheet = tables[selected_sheet]
-        csv_file_name = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
-        if csv_file_name:
-            save_to_csv(current_sheet, csv_file_name)
-
-
-# ----------- Function: Save as Excel -----------
-def save_excel():
-    pass
-
-
-# ----------- Function: Clean the Data -----------
-def clean_data():
-    pass
-
-
-# ----------- Function: Draw the Data -----------
-def visualise_data():
-    pass
-
-
-# ----------- Function: Analyse the Data -----------
-def analyse_data():
-    pass
-
-
-# ----------- GUI -----------
-window = tk.Tk()
-window.title("Data Monster")
-window.resizable(False, False)
-
-frame = tk.Frame(window)
-frame.pack(pady=10)
-
-menu = tk.Menu(window)
-window.config(menu=menu)
-menu_file = tk.Menu(menu)
-
-fileMenu = tk.Menu(menu)
-menu.add_cascade(label='File', menu=fileMenu)
-fileMenu.add_command(label='New')
-fileMenu.add_command(label='Open...')
-fileMenu.add_separator()
-fileMenu.add_command(label='Exit', command=window.quit)
-helpMenu = tk.Menu(menu)
-menu.add_cascade(label='Help', menu=helpMenu)
-helpMenu.add_command(label='About')
-
-label_path = tk.Label(frame, text="File Path:")
-label_path.grid(row=0, column=0)
-
-entry_path = tk.Entry(frame, width=50)
-entry_path.grid(row=0, column=1, padx=10)
-
-button_browse = tk.Button(frame, text="Browse Files", command=browse_file)
-button_browse.grid(row=0, column=2)
-
-button_convert_csv = tk.Button(frame, text="Convert to CSV", command=convert_to_csv)
-button_convert_csv.grid(row=1, columnspan=3, pady=10)
-
-button_convert_excel = tk.Button(frame, text="Convert to Excel")
-button_convert_excel.grid(row=2, columnspan=3, pady=10)
-
-listbox_sheets = tk.Listbox(window, selectmode=tk.SINGLE, width=50)
-listbox_sheets.pack(pady=10)
-
-button_save = tk.Button(window, text="Save as CSV", command=save_csv)
-button_save.pack()
-
-window.mainloop()
+if __name__ == "__main__":
+    main()
