@@ -25,10 +25,13 @@ def extract_transactions_from_pdf(pdf_path):
     return pd.DataFrame(transactions, columns=['Category', 'Amount'])
 
 def plot_budget(df):
-    plt.figure(figsize=(8, 6))
-    plt.pie(df['Amount'], labels=df['Category'], autopct='%1.1f%%', startangle=140, colors=plt.cm.Paired.colors)
+    plt.figure(figsize=(10, 6))
+    plt.bar(df['Category'], df['Amount'], color='skyblue')
+    plt.xlabel("Category")
+    plt.ylabel("Amount ($)")
     plt.title("Spending Allocation")
-    plt.axis('equal')  # Ensures pie chart is a circle
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
     plt.show()
 
 def main():
