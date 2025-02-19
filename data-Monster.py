@@ -25,12 +25,13 @@ def extract_transactions_from_pdf(pdf_path):
     return pd.DataFrame(transactions, columns=['Category', 'Amount'])
 
 def plot_budget(df):
-    plt.figure(figsize=(10, 6))
-    plt.bar(df['Category'], df['Amount'], color='skyblue')
-    plt.xlabel("Category")
-    plt.ylabel("Amount ($)")
+    plt.figure(figsize=(12, 6))
+    plt.barh(df.index, df['Amount'], color='skyblue')
+    plt.yticks(df.index, df['Category'])
+    plt.xlabel("Amount ($)")
+    plt.ylabel("Transaction")
     plt.title("Spending Allocation")
-    plt.xticks(rotation=45, ha='right')
+    plt.gca().invert_yaxis()  # Invert Y-axis for better readability
     plt.tight_layout()
     plt.show()
 
