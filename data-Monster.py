@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import pdfplumber
+import tkinter as tk
+from tkinter import filedialog
+import re
 
 def extract_transactions_from_pdf(pdf_path):
     transactions = []
@@ -11,15 +14,13 @@ def extract_transactions_from_pdf(pdf_path):
             if text:
                 lines = text.split("\n")
                 for line in lines:
-                    parts = line.split()
-                    if len(parts) > 4 and parts[1] in ["BP", "DC"]:  # Filter transactions
-                        try:
-                            money_out = float(parts[-2]) if parts[-2].replace('.', '', 1).isdigit() else 0
-                            money_in = float(parts[-3]) if parts[-3].replace('.', '', 1).isdigit() else 0
-                            category = parts[2] if len(parts) > 2 else "Unknown"
-                            transactions.append((category, money_out if money_out > 0 else money_in))
-                        except ValueError:
-                            continue
+                    match = re.search(r'(?P<date>\d{2} \w{3})\s+(?P<type>\w+)\s+(?P<description>[\w\s]+)\s+(?P<money_out>\d+\.\d{2})?\s+(?P<money_in>\d+\.\d{2})?', line)
+                    if match:
+                        category = match.group("description").strip()
+                        money_out = float(match.group("money_out")) if match.group("money_out") else 0
+                        money_in = float(match.group("money_in")) if match.group("money_in") else 0
+                        amount = money_out if money_out > 0 else money_in
+                        transactions.append((category, amount))
     
     return pd.DataFrame(transactions, columns=['Category', 'Amount'])
 
@@ -31,15 +32,21 @@ def plot_budget(df):
     plt.show()
 
 def main():
-    pdf_path = "1_WP03-0774-0077757-000_20241124_058.pdf"  # Update with actual file path
-    budget_df = extract_transactions_from_pdf(pdf_path)
+    root = tk.Tk()
+    root.withdraw()
+    pdf_path = filedialog.askopenfilename(title="Select PDF File", filetypes=[("PDF Files", "*.pdf")])
     
-    if not budget_df.empty:
-        print("\nBudget Overview:")
-        print(budget_df)
-        plot_budget(budget_df)
+    if pdf_path:
+        budget_df = extract_transactions_from_pdf(pdf_path)
+        
+        if not budget_df.empty:
+            print("\nBudget Overview:")
+            print(budget_df)
+            plot_budget(budget_df)
+        else:
+            print("No budget data found.")
     else:
-        print("No budget data found.")
+        print("No file selected.")
 
 if __name__ == "__main__":
     main()
